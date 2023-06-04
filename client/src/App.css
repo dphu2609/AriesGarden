@@ -1,40 +1,72 @@
-.App {
-  text-align: center;
+/* Header.js */
+
+.show {
+  display: block;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.hide {
+  display: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navigation-bar {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  margin-top: 2rem; 
+  margin-bottom: 2rem;
 }
 
-.App-link {
-  color: #61dafb;
+.search-btn {
+  align-self: flex-start;
+  margin-top: 1rem;
+  margin-left: 2rem;
+  border: none;
+  background-color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.search-btn:hover {
+  color: rgb(66, 82, 52);
+}
+
+.form-search-activated {
+  position: absolute;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+.search-input {
+  border: none;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.nav-brand {
+  text-decoration: none;
+  color: rgb(107, 133, 84);
+  font-family: 'Dancing Script', cursive;
+}
+
+.nav-brand h1 {
+  font-size: 3rem;
+}
+
+.account-cart {
+  margin-top: 1rem;
+}
+
+.home-cart {
+  margin-right: 2rem;
+  color: rgb(107, 133, 84);
+}
+
+.home-account {
+  margin-right: 2rem;
+  color: rgb(107, 133, 84);
+}
+
+.home-cart :hover, .home-account :hover {
+  color: rgb(66, 82, 52);
 }
 
 /* HomeCarousel.js */

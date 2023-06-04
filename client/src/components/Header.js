@@ -1,35 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import {
-    Container, Row, Col, Form, Input, Button, Navbar, Nav,
-    NavbarBrand, NavLink, NavItem, UncontrolledDropdown,
-    DropdownToggle, DropdownMenu, DropdownItem, Carousel
-} from 'reactstrap';
+import React, { useState, useEffect, useRef } from 'react';
 
-const Header = () => {        
-    return (
+const Header = () => {
+  const [search, setSearch] = useState(false);
+  const formRef = useRef(null);
+
+  const activateSearch = () => {
+    setSearch(true);
+  };
+
+  const deactivateSearch = () => {
+    setSearch(false);
+  };
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target) && search === true) {
+        deactivateSearch();
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [search]);
+
+  const handleReset = () => {
+    setSearchQuery('');
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetch('/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `search=${encodeURIComponent(searchQuery)}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the server
+        console.log(data);
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.error(error);
+      });
+  };
+  
+
+  return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">Aries Garden</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <form className="d-flex">
-            <input className="form-control me-2" type="search" placeholder="Search in our Garden" aria-label="Search" name="homeSearch"/>
-            <button className="btn btn-primary" type="submit" formMethod="post"><i class="fa-solid fa-magnifying-glass"></i></button>
-          </form>
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link" href="/account"><i className="fa-solid fa-user"></i></a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping"></i></a>
-            </li>
-          </ul>
+      <nav className="navigation-bar">
+        <button className="search-btn" onClick={activateSearch}>
+          <i className="fa-solid fa-magnifying-glass"></i> Search
+        </button>
+        <form 
+        ref={formRef} className={`form-search-activated ${search === true ? 'show' : 'hide'}`} 
+        onSubmit={handleSubmit}
+        >
+          <input
+            type="text"
+            placeholder="Ex: Cactus"
+            name="search"
+            value={searchQuery}
+            onChange={handleInputChange}
+            className="search-input"
+          />
+        </form>
+        <a href="/" className="nav-brand">
+          <h1>Aries Garden</h1>
+        </a>
+        <div className="account-cart">
+          <a href="/account" className="home-account">
+            <i className="fa-solid fa-user"></i>
+          </a>
+          <a href="/cart" className="home-cart">
+            <i className="fa-solid fa-cart-shopping"></i>
+          </a>
         </div>
       </nav>
     </div>
-    ); 
-}
+  );
+};
 
 export default Header;
