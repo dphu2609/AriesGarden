@@ -73,20 +73,36 @@
 
 .carousel-container {
   position: relative;
-  width: 100%;
-  height: 50rem;
+  height: 500px;
+  overflow: hidden;
 }
 
-.carousel-image {
+.carousel-slide {
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
-.carousel-image.active {
+.carousel-slide.active {
   opacity: 1;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-label {
+  position: absolute;
+  top: 0;
+  color: white;
+}
+
+.label-1 {
+  font-size: 4rem;
 }
